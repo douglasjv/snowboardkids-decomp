@@ -16,6 +16,8 @@ pass.
 | ROM layout | `snowboardkids.yaml` | `snowboardkids2.yaml` | Divergent | Splat extraction plus exact SK1 SHA-1 | Never transfer SK2 addresses, segment sizes, or library ordering without SK1 evidence. |
 | Matching workflow | `tools/`, `decomp.yaml` | SK2 `tools/`, `decomp.yaml` | Structural correspondence | Canonical gate and focused asm/data diff | Both use Splat, asm-differ, mapfile-parser, data differ, and tiny function packets. |
 | Race, menu, audio, graphics subsystems | `src/` | SK2 `src/` | Candidate family correspondence | Pending symbol-by-symbol mapping | Use normalized assembly and call-graph evidence before claiming a function correspondence. |
+| `D_800E0DB8` integer format string | `src/menu/course_select/course_select_ui.c` | `gIntegerFormatString` in `src/story/shop_ui.c`; `sIntegerFormat` in `src/race/race_effects.c` | Exact literal correspondence | Full SK1 SHA-1 gate | SK2 confirms that the shared `"%d"` object is source data; SK1 retains its address-derived symbol until naming evidence is stronger. |
+| `updateRaceCourseProgressMeter` | `src/race/ui/race_hud.c` | `updatePlayerRaceProgressIndicator` in `src/race/race_effects.c` | Same UI family, divergent algorithm | SK1 focused candidate at 99.551%; not accepted | SK1 directly scales four players' course progress. SK2 smooths rank-ordered indicator elements from remaining lap progress. |
 
 Add one row for every accepted SK2-assisted packet, including negative or
 divergent findings when they are reusable.

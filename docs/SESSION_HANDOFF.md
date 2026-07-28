@@ -27,3 +27,8 @@ read-only or function-level assignment.
 Use the fresh canonical report and `tools/list_decomp_candidates.py`; do not
 select from this prose if it is stale. Prefer a small function with a strong SK2
 source correspondence or a clearly identified libultra/libmus family.
+
+`D_800E0DB8` has been converted from an extracted assembly string to exact C
+source. `updateRaceCourseProgressMeter` remains parked at a focused 99.551%;
+read its ignored `nonmatchings/updateRaceCourseProgressMeter/NEAR_MISS.md`
+before revisiting it.

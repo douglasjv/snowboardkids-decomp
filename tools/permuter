@@ -1,5 +1,11 @@
 #!/bin/bash
 
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+if [ -x "$ROOT/.venv/bin/python3" ]; then
+    PATH="$ROOT/.venv/bin:$PATH"
+    export PATH
+fi
+
 # Parse arguments
 SOURCE_FILE="src/temp.c"
 PRESERVE_F3DEX=false

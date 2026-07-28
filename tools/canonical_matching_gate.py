@@ -72,6 +72,23 @@ def unit_source(unit_name: str) -> str:
     return "generated_or_binary"
 
 
+def c_unit_has_embedded_binary_source(unit_name: str) -> bool:
+    if not unit_name.startswith("build/"):
+        return True
+    source_path = (ROOT / unit_name.removeprefix("build/")).with_suffix(".c")
+    if not source_path.is_file():
+        return True
+    text = source_path.read_text(errors="replace")
+    return bool(
+        re.search(
+            r"#pragma\s+(?:GLOBAL_ASM|INCLUDE_ASM)\b|"
+            r"\bINCBIN(?:_U8|_S8|_U16|_S16|_U32|_S32)?\b|"
+            r"\.incbin\b",
+            text,
+        )
+    )
+
+
 def progress_summary(report: dict[str, Any]) -> dict[str, Any]:
     measures = report["measures"]
     source_backed_functions = 0
@@ -103,7 +120,11 @@ def progress_summary(report: dict[str, Any]) -> dict[str, Any]:
                 continue
             size = int(section.get("size", 0))
             data_by_source[source] = data_by_source.get(source, 0) + size
-            if source == "c" and section.get("fuzzy_match_percent") == 100.0:
+            if (
+                source == "c"
+                and section.get("fuzzy_match_percent") == 100.0
+                and not c_unit_has_embedded_binary_source(unit.get("name", ""))
+            ):
                 source_backed_data += size
 
     total_code = int(measures["total_code"])
