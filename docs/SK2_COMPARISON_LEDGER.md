@@ -18,6 +18,8 @@ pass.
 | Race, menu, audio, graphics subsystems | `src/` | SK2 `src/` | Candidate family correspondence | Pending symbol-by-symbol mapping | Use normalized assembly and call-graph evidence before claiming a function correspondence. |
 | `D_800E0DB8` integer format string | `src/menu/course_select/course_select_ui.c` | `gIntegerFormatString` in `src/story/shop_ui.c`; `sIntegerFormat` in `src/race/race_effects.c` | Exact literal correspondence | Full SK1 SHA-1 gate | SK2 confirms that the shared `"%d"` object is source data; SK1 retains its address-derived symbol until naming evidence is stronger. |
 | `updateRaceCourseProgressMeter` | `src/race/ui/race_hud.c` | `updatePlayerRaceProgressIndicator` in `src/race/race_effects.c` | Same UI family, divergent algorithm | SK1 focused candidate at 99.551%; not accepted | SK1 directly scales four players' course progress. SK2 smooths rank-ordered indicator elements from remaining lap progress. |
+| `getRaceCourseSurfaceHeight` | `src/race/motion/race_motion.c` | `getTrackHeightAtPosition` in `src/graphics/displaylist.c` | Strong algorithmic correspondence, divergent layouts | SK1 focused candidate at 99.821%; not accepted | Both traverse candidate faces, apply directed-edge tests, and interpolate plane height. SK1 uses different face metadata and 17-bit fixed-point coordinates. |
+| `compressRaceRecordReplayData` | `src/menu/main_menu/main_menu_scene_model.c` | No corresponding source located | SK1-only finding so far | SK1 focused candidate at 99.203%; not accepted | The SK1 LZ-style replay compressor has a register-only near miss; do not conflate it with SK2 asset decompression helpers. |
 
 Add one row for every accepted SK2-assisted packet, including negative or
 divergent findings when they are reusable.

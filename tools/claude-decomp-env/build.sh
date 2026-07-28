@@ -74,10 +74,13 @@ CC="$PROJECT_ROOT/tools/ido-recomp/$IDO_PLATFORM/cc"
 ASM_PROC="$PROJECT_ROOT/tools/asm-processor/build.py"
 
 ASFLAGS=(-G 0 -I "$PROJECT_ROOT/include" -mips3 -mabi=32)
-C_DEFINES=(-DLANGUAGE_C -D_LANGUAGE_C -D_MIPS_SZLONG=32 -DNDEBUG)
+C_DEFINES=(-DLANGUAGE_C -D_LANGUAGE_C -D_MIPS_SZLONG=32 -DNDEBUG \
+    -DCOMPILING_LIBULTRA -DBUILD_VERSION=VERSION_I -DF3DEX_GBI)
 CFLAGS=(-c "$OPT_FLAG" -mips1 -G 0 -non_shared -fullwarn -Xcpluscomm \
     -nostdinc -Wab,-r4300_mul -woff 649,838,712,516 \
-    -I"$PROJECT_ROOT/include" "${C_DEFINES[@]}")
+    -I"$PROJECT_ROOT" -I"$PROJECT_ROOT/include" -I"$PROJECT_ROOT/include/PR" \
+    -I"$PROJECT_ROOT/src/ultra/audio" -I"$PROJECT_ROOT/src/ultra/libc" \
+    "${C_DEFINES[@]}")
 
 pushd "$PROJECT_ROOT" >/dev/null
 

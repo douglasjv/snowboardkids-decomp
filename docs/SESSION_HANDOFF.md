@@ -32,3 +32,11 @@ source correspondence or a clearly identified libultra/libmus family.
 source. `updateRaceCourseProgressMeter` remains parked at a focused 99.551%;
 read its ignored `nonmatchings/updateRaceCourseProgressMeter/NEAR_MISS.md`
 before revisiting it.
+
+Additional parked candidates:
+
+- `initShopMenuSparkles`: 99.655%, one global-load register difference.
+- `compressRaceRecordReplayData`: 99.203%, `t3`/`t5` register swap.
+- `getRaceCourseSurfaceHeight`: 99.821%, stack-frame size only.
+
+Each has an ignored `NEAR_MISS.md` in its matching workspace.
