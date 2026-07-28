@@ -46,10 +46,10 @@ quad, the 32-byte libmus audio-thread state block, and the 144-byte character
 raw/texture/model ROM range family. The race-player rumble pattern tables are
 now source-owned as well, along with the fixed-point identity transform, packed
 N64 identity matrix, race-player shadow matrix template, race-item projectile
-quads, and course-effect lookup rows. Across the latest nine milestones, 784
-data bytes moved from extracted assembly to C; 752 bytes increased the
-conservative source-backed counter because their translation units are wholly
-source-owned.
+quads, course-effect lookup rows, and 26 character-specific race-surface cue
+sequences. Across the latest ten milestones, 1,328 data bytes moved from
+extracted assembly to C; 1,296 bytes increased the conservative source-backed
+counter because their translation units are wholly source-owned.
 
 `updateRaceCourseProgressMeter` remains parked at a focused 99.551%; read its
 ignored `nonmatchings/updateRaceCourseProgressMeter/NEAR_MISS.md` before
