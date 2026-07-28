@@ -47,9 +47,11 @@ raw/texture/model ROM range family. The race-player rumble pattern tables are
 now source-owned as well, along with the fixed-point identity transform, packed
 N64 identity matrix, race-player shadow matrix template, race-item projectile
 quads, course-effect lookup rows, and 26 character-specific race-surface cue
-sequences. Across the latest ten milestones, 1,328 data bytes moved from
+sequences. Across the latest eleven milestones, 1,392 data bytes moved from
 extracted assembly to C; 1,296 bytes increased the conservative source-backed
-counter because their translation units are wholly source-owned.
+counter because their translation units are wholly source-owned. The latest
+64-byte scheduler state/analog-response object is intentionally withheld from
+source-backed credit while that object retains a `GLOBAL_ASM`.
 
 `updateRaceCourseProgressMeter` remains parked at a focused 99.551%; read its
 ignored `nonmatchings/updateRaceCourseProgressMeter/NEAR_MISS.md` before
