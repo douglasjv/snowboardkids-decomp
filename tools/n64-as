@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root=$(cd "$(dirname "$0")/.." && pwd)
+local_as="$root/tools/binutils/bin/mips64-elf-as"
+if [ -x "$local_as" ]; then
+    exec "$local_as" "$@"
+fi
+for assembler in mips-linux-gnu-as mips64-linux-gnu-as mips64-elf-as; do
+    if command -v "$assembler" >/dev/null 2>&1; then
+        exec "$assembler" "$@"
+    fi
+done
+echo "No supported N64 assembler found; run tools/setup_local_toolchain.sh." >&2
+exit 2

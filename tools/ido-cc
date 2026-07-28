@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root=$(cd "$(dirname "$0")/.." && pwd)
+case "$(uname -s)" in
+    Darwin) platform=macos ;;
+    *) platform=linux ;;
+esac
+exec "$root/tools/ido-recomp/$platform/cc" "$@"
