@@ -70,8 +70,8 @@ extern Gfx gMenuRenderModeResetDl[];
 extern s16 gMenuFadeAlpha;
 extern s16 gAssetHandles[];
 extern u16 gEndingCreditsTransitionSnowboardIconExpandFrameCounter;
-extern u16 gEndingCreditsNancyRunDustFrameOffsets[];
-extern u16 gEndingCreditsTommySnowmanEntranceFrameOffsets[];
+u16 gEndingCreditsNancyRunDustFrameOffsets[4] = {0, 1, 2, 1};
+u16 gEndingCreditsTommySnowmanEntranceFrameOffsets[4] = {0, 1, 2, 1};
 
 void updateEndingCreditsCharacterVanishPoof(EndingCreditsEffectActor *arg0);
 void updateEndingCreditsNancySpeedLines(EndingCreditsEffectActor *arg0);
