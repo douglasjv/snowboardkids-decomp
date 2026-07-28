@@ -20,9 +20,32 @@ typedef struct {
 
 extern s16 gAssetHandles[];
 extern u16 gRaceCourseIndex;
-extern RomAssetRange gCharacterRawAssetRanges[];
-extern RomAssetRange gCharacterTextureAssetRanges[];
-extern RomAssetRange gCharacterModelAssetRanges[];
+RomAssetRange gCharacterRawAssetRanges[6] = {
+    {(u8 *)&_1502A0_ROM_START, (u8 *)&_1502A0_ROM_END},
+    {(u8 *)&_152930_ROM_START, (u8 *)&_152930_ROM_END},
+    {(u8 *)&_155A20_ROM_START, (u8 *)&_155A20_ROM_END},
+    {(u8 *)&_158D90_ROM_START, (u8 *)&_158D90_ROM_END},
+    {(u8 *)&_15C750_ROM_START, (u8 *)&_15C750_ROM_END},
+    {(u8 *)&_160360_ROM_START, (u8 *)&_160360_ROM_END},
+};
+
+RomAssetRange gCharacterTextureAssetRanges[6] = {
+    {(u8 *)&_1E19C0_ROM_START, (u8 *)&_1E19C0_ROM_END},
+    {(u8 *)&_1E2380_ROM_START, (u8 *)&_1E2380_ROM_END},
+    {(u8 *)&_1E2DE0_ROM_START, (u8 *)&_1E2DE0_ROM_END},
+    {(u8 *)&_1E3FE0_ROM_START, (u8 *)&_1E3FE0_ROM_END},
+    {(u8 *)&_1E4AB0_ROM_START, (u8 *)&_1E4AB0_ROM_END},
+    {(u8 *)&_1E68A0_ROM_START, (u8 *)&_1E68A0_ROM_END},
+};
+
+RomAssetRange gCharacterModelAssetRanges[6] = {
+    {(u8 *)&_1F2220_ROM_START, (u8 *)&_1F2220_ROM_END},
+    {(u8 *)&_1F7D20_ROM_START, (u8 *)&_1F7D20_ROM_END},
+    {(u8 *)&_1FE860_ROM_START, (u8 *)&_1FE860_ROM_END},
+    {(u8 *)&_2044B0_ROM_START, (u8 *)&_2044B0_ROM_END},
+    {(u8 *)&_20A940_ROM_START, (u8 *)&_20A940_ROM_END},
+    {(u8 *)&_211470_ROM_START, (u8 *)&_211470_ROM_END},
+};
 
 
 extern u8 gRaceSplitscreenMode;
