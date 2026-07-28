@@ -8,18 +8,24 @@ fi
 
 INPUT="$(realpath "$1")"
 OPT_FLAG="${2:--O2}"
-OBJECT_OUTPUT="$(realpath "${1%.c}.o")"
-ANNOTATED_OUTPUT="$(realpath "${1%.c}_annotated.s")"
+INPUT_DIR="$(cd "$(dirname "$1")" && pwd -P)"
+INPUT_STEM="$(basename "${1%.c}")"
+OBJECT_OUTPUT="$INPUT_DIR/$INPUT_STEM.o"
+ANNOTATED_OUTPUT="$INPUT_DIR/${INPUT_STEM}_annotated.s"
 OBJECT_DUMP="${1%.c}_object_dump.s"
 WORKSPACE="$(pwd -P)"
 
-if ! command -v flock >/dev/null 2>&1; then
-    echo "ERROR: flock is required to serialize matching builds."
-    exit 1
+LOCK_DIR=
+if command -v flock >/dev/null 2>&1; then
+    exec 9>"$WORKSPACE/.build.lock"
+    flock 9
+else
+    LOCK_DIR="$WORKSPACE/.build.lock.d"
+    if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+        echo "ERROR: another matching build holds $LOCK_DIR"
+        exit 1
+    fi
 fi
-
-exec 9>"$WORKSPACE/.build.lock"
-flock 9
 
 if grep -q "INCLUDE_ASM\|GLOBAL_ASM" "$INPUT"; then
     echo "ERROR: The C file contains an assembly include."
@@ -33,6 +39,9 @@ cleanup() {
     if [ -n "${MATCH_BACKUP_TMP:-}" ]; then
         rm -f -- "$MATCH_BACKUP_TMP"
     fi
+    if [ -n "$LOCK_DIR" ]; then
+        rmdir "$LOCK_DIR"
+    fi
 }
 trap cleanup EXIT
 cp -- "$INPUT" "$SOURCE_SNAPSHOT"
@@ -40,11 +49,16 @@ cp -- "$INPUT" "$SOURCE_SNAPSHOT"
 SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_PATH/../.." && pwd)"
 
-CROSS="mips-linux-gnu-"
-if ! command -v "${CROSS}as" >/dev/null 2>&1; then
+LOCAL_CROSS="$PROJECT_ROOT/tools/binutils/bin/mips64-elf-"
+if [ -x "${LOCAL_CROSS}as" ]; then
+    CROSS="$LOCAL_CROSS"
+else
+    CROSS="mips-linux-gnu-"
+fi
+if ! command -v "${CROSS}as" >/dev/null 2>&1 && [ ! -x "${CROSS}as" ]; then
     CROSS="mips64-linux-gnu-"
 fi
-if ! command -v "${CROSS}as" >/dev/null 2>&1; then
+if ! command -v "${CROSS}as" >/dev/null 2>&1 && [ ! -x "${CROSS}as" ]; then
     CROSS="mips64-elf-"
 fi
 
@@ -52,7 +66,11 @@ AS="${CROSS}as"
 OBJDUMP="${CROSS}objdump"
 OBJCOPY="${CROSS}objcopy"
 NM="${CROSS}nm"
-CC="$PROJECT_ROOT/tools/ido-recomp/linux/cc"
+case "$(uname -s)" in
+    Darwin) IDO_PLATFORM=macos ;;
+    *) IDO_PLATFORM=linux ;;
+esac
+CC="$PROJECT_ROOT/tools/ido-recomp/$IDO_PLATFORM/cc"
 ASM_PROC="$PROJECT_ROOT/tools/asm-processor/build.py"
 
 ASFLAGS=(-G 0 -I "$PROJECT_ROOT/include" -mips3 -mabi=32)
@@ -91,9 +109,9 @@ echo "Comparison with target file: ${1%.c}_diff"
 SCORE_OUTPUT=$(python3 dist.py target.o "$OBJECT_OUTPUT" --stack-diffs)
 echo "$SCORE_OUTPUT"
 
-MATCH_PERCENT=$(echo "$SCORE_OUTPUT" | grep -oP 'Score: \K[0-9.]+' || true)
-DIFFERENCE_COUNT=$(echo "$SCORE_OUTPUT" | grep -oP '\(\K[0-9]+(?= differences\))' || true)
-SCORER_EXACT=$(echo "$SCORE_OUTPUT" | grep -oP '^Exact match: \K(?:yes|no)$' || true)
+MATCH_PERCENT=$(echo "$SCORE_OUTPUT" | sed -n 's/^Score: \([0-9.]*\)%.*/\1/p')
+DIFFERENCE_COUNT=$(echo "$SCORE_OUTPUT" | sed -n 's/^Score: .* (\([0-9][0-9]*\) differences).*/\1/p')
+SCORER_EXACT=$(echo "$SCORE_OUTPUT" | sed -n 's/^Exact match: \(yes\|no\)$/\1/p')
 NORMALIZED_EXACT=no
 if cmp -s target_object_dump_normalized.s "${1%.c}_object_dump_normalized.s"; then
     NORMALIZED_EXACT=yes
@@ -107,7 +125,7 @@ fi
 echo "Verified exact match: $TRUE_MATCH"
 
 if [ "$TRUE_MATCH" = yes ]; then
-    SOURCE_HASH=$(sha256sum "$SOURCE_SNAPSHOT" | awk '{print $1}')
+    SOURCE_HASH=$(shasum -a 256 "$SOURCE_SNAPSHOT" | awk '{print $1}')
     SOURCE_STEM="$(basename "${INPUT%.c}")"
     MATCH_DIR="$WORKSPACE/.matches"
     MATCH_BACKUP="$MATCH_DIR/${SOURCE_STEM}-${SOURCE_HASH}.c"

@@ -13,6 +13,13 @@ endif
 
 WERROR ?= 0
 
+HOST_OS := $(shell uname -s)
+ifeq ($(HOST_OS),Darwin)
+  IDO_RECOMP_PLATFORM := macos
+else
+  IDO_RECOMP_PLATFORM := linux
+endif
+
 # Colours
 
 NO_COL  := \033[0m
@@ -36,7 +43,11 @@ TOOLS_DIR = tools
 
 find-command = $(shell which $(1) 2>/dev/null)
 
-ifneq      ($(call find-command,mips-linux-gnu-ld),)
+LOCAL_CROSS := $(TOOLS_DIR)/binutils/bin/mips64-elf-
+
+ifneq      ($(wildcard $(LOCAL_CROSS)ld),)
+  CROSS := $(LOCAL_CROSS)
+else ifneq ($(call find-command,mips-linux-gnu-ld),)
   CROSS := mips-linux-gnu-
 else ifneq ($(call find-command,mips64-linux-gnu-ld),)
   CROSS := mips64-linux-gnu-
@@ -58,7 +69,7 @@ else
 endif
 
 AS      = $(CROSS)as
-CC      = $(TOOLS_DIR)/ido-recomp/linux/cc
+CC      = $(TOOLS_DIR)/ido-recomp/$(IDO_RECOMP_PLATFORM)/cc
 CC_CHECK = clang
 LD      = $(CROSS)ld
 OBJDUMP = $(CROSS)objdump

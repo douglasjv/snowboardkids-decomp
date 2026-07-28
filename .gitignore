@@ -1,4 +1,5 @@
-snowboardkids.z64
+*.z64
+reference/
 asm
 assets
 snowboardkids.d
@@ -7,6 +8,7 @@ undefined_funcs_auto.txt
 undefined_syms_auto.txt
 build
 tools/ido-recomp
+tools/binutils
 .decomp_dev_secret
 .push_secrets
 
