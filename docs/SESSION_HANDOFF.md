@@ -2,8 +2,12 @@
 
 ## Authoritative integration path
 
-- Branch: `local-integration`, based on `origin/main` from
-  `https://github.com/cdlewis/snowboardkids-decomp`.
+- Authoritative branch: `integration`, based on the protected `publish/main`.
+- Upstream reference: `origin/main` from
+  `https://github.com/cdlewis/snowboardkids-decomp` (read-only).
+- Publication remote: `publish` at
+  `https://github.com/douglasjv/snowboardkids-decomp`. Baseline PR #1 was
+  squash-merged to its protected `main`.
 - Target: Snowboard Kids North America revision 0 (`NSKE`, SHA-1
   `1583bacc9046a360df8ea4d536942155247e154c`).
 - SK2 comparison corpus: ignored checkout at
@@ -21,6 +25,11 @@ Read `AGENTS.md`, `docs/PROJECT_STATUS.md`, and
 `docs/SK2_COMPARISON_LEDGER.md` before selecting a packet. Keep this checkout
 as the only authoritative writer and give any worker a bounded, non-overlapping
 read-only or function-level assignment.
+
+Push integration packets to `publish`, open a PR against its `main`, and prefer
+squash merges. The active `Protected main` ruleset requires one approval and a
+code-owner review, blocks deletion and non-fast-forward pushes, and grants
+`douglasjv` an owner bypass for self-authored PRs.
 
 ## Current frontier
 
