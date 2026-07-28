@@ -2,8 +2,9 @@
 
 ## Authoritative integration path
 
-- Branch: `local-integration`, based on `origin/main` from
-  `https://github.com/cdlewis/snowboardkids-decomp`.
+- Authoritative branch: `integration`, based on the protected `publish/main`.
+- Upstream reference: `origin/main` from
+  `https://github.com/cdlewis/snowboardkids-decomp` (read-only).
 - Publication remote: `publish` at
   `https://github.com/douglasjv/snowboardkids-decomp`. Baseline PR #1 was
   squash-merged to its protected `main`.
