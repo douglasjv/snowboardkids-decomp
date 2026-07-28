@@ -41,10 +41,11 @@ source correspondence or a clearly identified libultra/libmus family.
 `__osContinitialized` libultra object have been converted from extracted
 assembly to exact C source. The four-entry `__osMotorinitialized` array is also
 source-owned using exact SK2 ultralib lineage, along with the Nancy dust and
-Tommy snowman four-frame ending-effect tables and Tommy's 64-byte ending shadow
-quad. Across the latest four milestones, 144 data bytes moved from extracted
-assembly to C; 112 bytes increased the conservative source-backed counter
-because their translation units are wholly source-owned.
+Tommy snowman four-frame ending-effect tables, Tommy's 64-byte ending shadow
+quad, and the 32-byte libmus audio-thread state block. Across the latest five
+milestones, 176 data bytes moved from extracted assembly to C; 144 bytes
+increased the conservative source-backed counter because their translation
+units are wholly source-owned.
 
 `updateRaceCourseProgressMeter` remains parked at a focused 99.551%; read its
 ignored `nonmatchings/updateRaceCourseProgressMeter/NEAR_MISS.md` before
