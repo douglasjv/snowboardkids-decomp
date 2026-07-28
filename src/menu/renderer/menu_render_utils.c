@@ -99,7 +99,12 @@ extern s16 gFrameCounter;
 extern Gfx *gRegionAllocPtr;
 extern Gfx gMenuRenderModeResetDl[];
 extern void *gMenuAsciiFontPaletteBase;
-extern u16 D_800D40B0[];
+u16 D_800D40B0[16] = {
+    0, 1, 1, 1,
+    1, 1, 1, 1,
+    1, 1, 1, 1,
+    1, 1, 1, 1,
+};
 
 extern void *allocMenuRenderScratch(s32);
 

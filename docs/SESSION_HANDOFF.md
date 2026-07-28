@@ -37,15 +37,23 @@ Use the fresh canonical report and `tools/list_decomp_candidates.py`; do not
 select from this prose if it is stale. Prefer a small function with a strong SK2
 source correspondence or a clearly identified libultra/libmus family.
 
-`D_800E0DB8` has been converted from an extracted assembly string to exact C
-source. `updateRaceCourseProgressMeter` remains parked at a focused 99.551%;
-read its ignored `nonmatchings/updateRaceCourseProgressMeter/NEAR_MISS.md`
-before revisiting it.
+`D_800E0DB8`, the 32-byte `D_800D40B0` TLUT, and the aligned
+`__osContinitialized` libultra object have been converted from extracted
+assembly to exact C source. The last canonical gate moved 48 data bytes from
+extracted assembly to C; 16 bytes increased the conservative source-backed
+counter because `src/ultra/io/controller.c` is wholly source-owned.
+
+`updateRaceCourseProgressMeter` remains parked at a focused 99.551%; read its
+ignored `nonmatchings/updateRaceCourseProgressMeter/NEAR_MISS.md` before
+revisiting it.
 
 Additional parked candidates:
 
 - `initShopMenuSparkles`: 99.655%, one global-load register difference.
 - `compressRaceRecordReplayData`: 99.203%, `t3`/`t5` register swap.
 - `getRaceCourseSurfaceHeight`: 99.821%, stack-frame size only.
+- `__MusIntGetNewNote`: 99.962%, one temporary register on the duration mask.
+- `validateControllerPakSave`: 99.306%, one register across the slot-size
+  multiply.
 
 Each has an ignored `NEAR_MISS.md` in its matching workspace.
