@@ -34,9 +34,16 @@ typedef struct ControllerInputState {
     u8 pad4[2];
 } ControllerInputState;
 
-extern s8 gAnalogStickResponseCurve;
-extern u8 gFramebufferSwapDelayTimer;
-extern u8 gFramebufferSwapDelay;
+u8 gFramebufferSwapDelayTimer[4] = { 0, 0, 0, 0 };
+u8 gFramebufferSwapDelay[4] = { 0, 0, 0, 0 };
+s8 gAnalogStickResponseCurve[56] = {
+     0,  0,  0,  0,  0,  0,  0,  0,  1,  1,
+     1,  2,  2,  2,  3,  3,  3,  4,  5,  6,
+     7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+    17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+    27, 28, 29, 30, 31, 31, 31, 31, 31, 31,
+     0,  0,  1,  0,  0,  0,
+};
 extern ControllerInputState gControllerInputState;
 extern s16 gFrameCounter;
 extern GameTask *gCurrentGameTask;
@@ -302,13 +309,13 @@ positiveStickX:
 s32 updateFramebufferRenderScheduler(void) {
     u8 frameIndex;
 
-    if (gFramebufferSwapDelayTimer == 0) {
+    if (gFramebufferSwapDelayTimer[0] == 0) {
         if (gFramebufferSwapHold == 0) {
             frameIndex = gNextFramebufferRenderTaskIndex;
             if (gFramebufferRenderTask0Statuses[frameIndex].status == 0) {
                 if ((s32) gPendingFramebufferSwapCount > 0) {
                     submitFramebufferRenderTask(frameIndex);
-                    gFramebufferSwapDelayTimer = gFramebufferSwapDelay;
+                    gFramebufferSwapDelayTimer[0] = gFramebufferSwapDelay[0];
                     gPendingFramebufferSwapCount--;
                     if (gNextFramebufferRenderTaskIndex != 0) {
                         gNextFramebufferRenderTaskIndex = 0;
@@ -323,7 +330,7 @@ s32 updateFramebufferRenderScheduler(void) {
         }
         goto return_one;
     }
-    gFramebufferSwapDelayTimer--;
+    gFramebufferSwapDelayTimer[0]--;
 
 return_one:
     return 1;
