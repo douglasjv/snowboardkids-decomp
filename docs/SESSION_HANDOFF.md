@@ -40,9 +40,10 @@ source correspondence or a clearly identified libultra/libmus family.
 `D_800E0DB8`, the 32-byte `D_800D40B0` TLUT, and the aligned
 `__osContinitialized` libultra object have been converted from extracted
 assembly to exact C source. The four-entry `__osMotorinitialized` array is also
-source-owned using exact SK2 ultralib lineage. Across the latest two milestones,
-64 data bytes moved from extracted assembly to C; 32 bytes increased the
-conservative source-backed counter because the controller and motor translation
+source-owned using exact SK2 ultralib lineage, along with the Nancy dust and
+Tommy snowman four-frame ending-effect tables. Across the latest three
+milestones, 80 data bytes moved from extracted assembly to C; 48 bytes
+increased the conservative source-backed counter because their translation
 units are wholly source-owned.
 
 `updateRaceCourseProgressMeter` remains parked at a focused 99.551%; read its
