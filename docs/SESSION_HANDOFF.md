@@ -44,9 +44,11 @@ source-owned using exact SK2 ultralib lineage, along with the Nancy dust and
 Tommy snowman four-frame ending-effect tables, Tommy's 64-byte ending shadow
 quad, the 32-byte libmus audio-thread state block, and the 144-byte character
 raw/texture/model ROM range family. The race-player rumble pattern tables are
-now source-owned as well. Across the latest seven milestones, 384 data bytes
-moved from extracted assembly to C; 352 bytes increased the conservative
-source-backed counter because their translation units are wholly source-owned.
+now source-owned as well, along with the fixed-point identity transform, packed
+N64 identity matrix, and race-player shadow matrix template. Across the latest
+eight milestones, 544 data bytes moved from extracted assembly to C; 512 bytes
+increased the conservative source-backed counter because their translation
+units are wholly source-owned.
 
 `updateRaceCourseProgressMeter` remains parked at a focused 99.551%; read its
 ignored `nonmatchings/updateRaceCourseProgressMeter/NEAR_MISS.md` before
